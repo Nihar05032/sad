@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>SQLi Demo (No DB)</title></head>
+<body>
+  <h3>Stored: admin / admin123</h3>
+
+  <h4>Vulnerable (simulated)</h4>
+  User: <input id="v_u"><br>
+  Pass: <input id="v_p"><br>
+  <button onclick="vuln()">Run</button>
+  <pre id="v_out"></pre>
+
+  <h4>Secure (simulated)</h4>
+  User: <input id="s_u"><br>
+  Pass: <input id="s_p"><br>
+  <button onclick="sec()">Run</button>
+  <pre id="s_out"></pre>
+
+<script>
+const storedUser = "admin";
+const storedPass = "admin123";
+
+function vuln(){
+  const u = document.getElementById('v_u').value;
+  const p = document.getElementById('v_p').value;
+  const fake = `SELECT * FROM users WHERE username = '${u}' AND password = '${p}'`;
+  let out = "Fake SQL: " + fake + "\n";
+  if (fake.includes("' OR '1'='1")) out += "✅ Login SUCCESS (VULNERABLE - injection worked!)";
+  else if (u===storedUser && p===storedPass) out += "✅ Login SUCCESS (correct creds)";
+  else out += "❌ Login FAILED";
+  document.getElementById('v_out').textContent = out;
+}
+
+function sec(){
+  const u = document.getElementById('s_u').value;
+  const p = document.getElementById('s_p').value;
+  let out = "Secure check: direct value comparison\n";
+  if (u===storedUser && p===storedPass) out += "✅ Login SUCCESS (SECURE)";
+  else out += "❌ Login FAILED (SECURE)";
+  document.getElementById('s_out').textContent = out;
+}
+</script>
+</body>
+</html>
