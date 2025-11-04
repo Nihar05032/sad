@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Feedback Form</h3>
+
+<form method="POST" action="/submit" onsubmit="return check();">
+  Name: <input id="name" name="name"><br><br>
+  Feedback: <textarea id="fb" name="fb"></textarea><br><br>
+  <button type="submit">Send</button>
+</form>
+
+<script>
+function check(){
+  if(name.value.trim()=="" || fb.value.trim()==""){
+    alert("Fields cannot be empty");
+    return false;
+  }
+  if(name.value.includes("<script") || fb.value.includes("<script")){
+    alert("Script not allowed");
+    return false;
+  }
+  return true; // allow submit
+}
+</script>
+
+</body>
+</html>
