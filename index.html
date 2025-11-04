@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="login">
+  user:<input id="user" placeholder="username"><br><br>
+  password:<input id="pass" type="password" placeholder="password"><br><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="home" style="display:none;">
+  <h3 id="msg"></h3>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+// Login Function
+function login(){
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if(u == "admin" && p == "123"){
+    document.cookie = "session=admin; path=/";  // ✅ Set cookie
+    show();
+  } else {
+    alert("Wrong Username or Password!");
+  }
+}
+
+// Check cookie and update UI
+function show(){
+  if(document.cookie.indexOf("session=admin") != -1){ 
+    document.getElementById("login").style.display = "none";
+    document.getElementById("home").style.display = "block";
+    document.getElementById("msg").innerHTML = "Welcome admin";
+  }
+}
+
+// Logout
+function logout(){
+  document.cookie = "session=; expires=Thu, 01 Jan 1970; path=/"; // ✅ Clear cookie
+  location.reload();
+}
+
+show();
+</script>
+
+</body>
+</html>
