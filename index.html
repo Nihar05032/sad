@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Validation</title>
+  
+</head>
+<body>
+
+  <form id="myForm" onsubmit="return validateForm()">
+    <h3>Register</h3>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter your name">
+    <div id="nameError" class="error"></div>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" placeholder="Enter your email">
+    <div id="emailError" class="error"></div>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter your password">
+    <div id="passwordError" class="error"></div>
+
+    <button type="submit">Submit</button>
+    <div id="successMessage" class="success"></div>
+  </form>
+
+  <script>
+    function validateForm() {
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value.trim();
+      let successMessage = document.getElementById("successMessage");
+
+      let isValid = true;
+
+      // Clear previous errors and success message
+      document.getElementById("nameError").innerText = "";
+      document.getElementById("emailError").innerText = "";
+      document.getElementById("passwordError").innerText = "";
+      successMessage.innerText = "";
+
+      // Name validation
+      if (name === "") {
+        document.getElementById("nameError").innerText = "Name is required";
+        isValid = false;
+      }
+
+      // Email validation (basic regex)
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (email === "") {
+        document.getElementById("emailError").innerText = "Email is required";
+        isValid = false;
+      } else if (!email.match(emailPattern)) {
+        document.getElementById("emailError").innerText = "Invalid email format";
+        isValid = false;
+      }
+
+      // Password validation: at least 6 chars, one uppercase, one special char
+      const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,}$/;
+      if (password === "") {
+        document.getElementById("passwordError").innerText = "Password is required";
+        isValid = false;
+      } else if (!password.match(passwordPattern)) {
+        document.getElementById("passwordError").innerText =
+          "Password must be ≥6 chars, include 1 uppercase and 1 special character";
+        isValid = false;
+      }
+
+      // If valid, show success message
+      if (isValid) {
+        successMessage.innerText = "✅ Form submitted successfully!";
+        document.getElementById("myForm").reset(); // clear fields
+      }
+
+      // Prevent actual form submission (for demo)
+      return false;
+    }
+  </script>
+
+</body>
+</html>
