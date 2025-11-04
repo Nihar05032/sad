@@ -2,25 +2,28 @@
 <html>
 <body>
 
-<h3>Feedback Form</h3>
-
-<form method="POST" action="/submit" onsubmit="return check();">
-  Name: <input id="name" name="name"><br><br>
-  Feedback: <textarea id="fb" name="fb"></textarea><br><br>
-  <button type="submit">Send</button>
-</form>
+Password: <input type="password" id="pass" onkeyup="check()">
+<p id="msg"></p>
 
 <script>
 function check(){
-  if(name.value.trim()=="" || fb.value.trim()==""){
-    alert("Fields cannot be empty");
-    return false;
+  let p = pass.value;
+  let msg = "";
+
+  if(p.length < 6){
+    msg = "Weak: Minimum 6 characters needed";
   }
-  if(name.value.includes("<script") || fb.value.includes("<script")){
-    alert("Script not allowed");
-    return false;
+  else if(!/[0-9]/.test(p)){
+    msg = "Weak: Add at least one number";
   }
-  return true; // allow submit
+  else if(!/[!@#$%^&*]/.test(p)){
+    msg = "Weak: Add a special character (!,@,#,%, etc)";
+  }
+  else{
+    msg = "Strong Password ✅";
+  }
+
+  document.getElementById("msg").innerHTML = msg;
 }
 </script>
 
